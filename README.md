@@ -21,6 +21,7 @@ Ryerson department of Mathematics</center><br></p>
 
 
 <p style="page-break-before: always">
+
 # Acknowledgements
 
 Thank you to my professor and mentor Alexey Rubtsov for his help and guidance. I'd also like to extend my gratitude to my friend Buko for all his support and patience.
@@ -42,44 +43,42 @@ A finite Markov Decision Process (MDP) can be thought of as the formal mathemati
 
 MDP formulation and corresponding transition function:
 
-$$
+\begin{equation}
 P(S_t = s'| S_{t-1} = s,\, a_t = a) = T(s,a,s')
-$$
+\end{equation}
 
 The Bellman equation[3]:
 
-$$
+\begin{equation}
 v_{\pi}(s)= \mathbb{E}_{\pi}[R_{t+1} + \gamma G_{t+1} | S_t = s], \hspace{40pt} 0\leq\gamma\leq 1
 \tag{1}
-$$
+\end{equation}
 
 Here $v_{\pi}$ represents the value function with respect to the policy $\pi$. The value of the current state is equal to the expected value of the next reward and all future rewards given the state if the agent were to follow the policy $\pi$. The total of all future rewards may be discounted by the value of $\gamma$. At a discount rate of 0, the agent is only interested in maximizing the best next reward and is said to be myopic or nearsighted. At a rate of 1, the agent values future rewards as heavily as current rewards. 
 
 The optimal policy is defined as one in which[3]:
 
-$$
-\pi \geq \pi' \iff v_pi \geq v'_{\pi}
-$$
+$$\pi \geq \pi' \iff v_pi \geq v'_{\pi}$$
 
 That is, there will always be a policy which is greater than or equal to any other policy if and only if the value function of following that policy is greater than or equal to any other policy's value function. An optimal action value function $q^{*}(s,a)$ is therefore the value function whose policy maxes the total across all state action pairs[3].
 
 Bellman's optimality equation:
 
-$$
+\begin{equation}
 v^{*}(s) = \max_{a\in\mathcal{A}(s)} q_{\pi^{*}}(s,a) \hspace{40pt} \forall: s \in \mathcal{S}
 \\
 \\
 q^{*}(s,a) = \max_{\pi} q_{\pi} (s,a) \hspace{40pt} \forall :[ s \in \mathcal{S}, a \in \mathcal{A}]
 \tag{2}
-$$
+\end{equation}
 
-$$
+\begin{equation}
 v^{*}(s) = \max_a \sum_{s',\,r} p(s', r| s,a)[r+\gamma v^{*}(s')]
 \\
 \\
 q^{*}(s,a) = \max_a \sum_{s',\,r} p(s', r| s,a)[r+\gamma \max_{a'}q^{*}(s',a')]
 \tag{3}
-$$
+\end{equation}
 
 
 ## Dynamic Programming
@@ -92,10 +91,10 @@ The Bellman equation therefore offers a system of equations which features all t
 
 We will consider the model for the price of a risky asset which follows geometric brownian motion with log normal returns. 
 
-$$
+\begin{equation}
 dX_t = \mu X_t\,dt + \sigma X_t\,dZ_t
 \tag{4}
-$$
+\end{equation}
 
 $\mu$ is the mean return for the asset
 
@@ -108,10 +107,10 @@ $Z_t$ is a Wiener process which denotes the random walk for the stochastic proce
 $\mu X_t$ is the drift term for the process and N
 
 The model for how a riskless asset evolves without an instantaneous volatility term
-$$
+\begin{equation}
 d{Y_t} = \rho\,Y_t\,dt 
 \tag{5}
-$$
+\end{equation}
 
 $\rho$ is the risk free rate
 
@@ -121,104 +120,106 @@ $Y_t$ is the price of the riskless asset at time $t$
 
 An investor starts with current wealth $W_{0}>0$ and expects to hold it from time $0\leq t\leq T$. They are free to allocate ($\pi$) the wealth a risky asset $X$ — which could be: stock, real-estate, or a portfolio of different stocks — and $(1-\pi)$ into a riskless asset $Y$. At time $t$ they must decide what portion $c$ to consume from the portfolio and how to reinvest the remainder between $X$ and $Y$. The objective for the investor is to do the allocation while trying to accomodate the utility function which will be constant relative risk aversion: 
 
-$$
+\begin{equation}
 U(x)=
 \begin{cases} 
       \frac{x^{1-\gamma}}{1-\gamma} & \gamma\neq 1 \\
       ln(x) &  \gamma = 1
 \end{cases}
 \tag{5}
-$$
+\end{equation}
 
 
 The investor will therefore be attempting to maximize the utility of their consumption from $t$ until $T$, as well as the utility value of their wealth $W_t$ at time $T$:
 
-$$
+\begin{equation}
 \max\mathbb{E} 
 \left[ 
 \int^{T}_{t}e^{\rho(s-t)}U(c_{s})\,ds + e^{\rho(s-t)}U(W_{T})
 \right]
-$$
+\end{equation}
 
-$$
+\begin{equation}
 \max\mathbb{E} 
 \left[ 
 \int^{T}_{t}\frac{e^{\rho(s-t)}c_s^{1-\gamma}}{1-\gamma}\,ds + \frac{e^{\rho(T-t)}W_T^{1-\gamma}}{1-\gamma}
 \right]
 \tag{6}
-$$
+\end{equation}
 
 
 The wealth of a portfolio can be described as a function of the number of shares $n_x$ invested in $X_t$ and $n_Y$ in the riskless asset $Y_t$
 
-$$
+\begin{equation}
 W_t = n_X X_t + n_Y Y_t
 \tag{5}
-$$
+\end{equation}
 
 The change in the value of the portfolio would therefore follow the update from the sum of the change in assets:
 
-$$
+\begin{equation}
 dW_t = n_X dX_t + n_Y dY_t
 \tag{6}
-$$
+\end{equation}
 
 
 We can then substitute in the relation between $W_T, Y_t,$ and $X_t$ from $(5)$
-$$
+\begin{equation}
 dW_t =  n_X X_t\frac{dX_t}{X_t} + n_Y Y_t\frac{dY_t}{Y_t}
-$$
-$$
+\end{equation}
+\begin{equation}
 dW_t =  n_X X_t\frac{dX_t}{X_t} + (W_t - n_X X_t)\frac{dY_t}{Y_t} 
-$$
-$$
+\end{equation}
+\begin{equation}
 dW_t = W_t\left[( \frac{n_X X_t}{W_t}\frac{dX_t}{X_t} + \frac{(W_t - n_X X_t)}{W_t}\frac{dY_t}{Y_t})\right]
 \tag{7}
-$$
+\end{equation}
 
 We can simplify the terms in $(7)$ if we create terms for the proportions of the wealth from the assets
 
-$$
+\begin{equation}
 \pi_t = \frac{n_X X_t}{W_t}\\
 and\\
 (1-\pi_t) =  \frac{(W_t - n_X X_t)}{W_t}
 \tag{8}
-$$
+\end{equation}
 Now plugging $(8)$ back into $(7)$:
-$$
+\begin{equation}
 dW_t = W_t\left[\pi_t\frac{dX_t}{X_t} + (1-\pi_t)\frac{dY_t}{Y_t})\right]
 \tag{9}
-$$
+\end{equation}
  
 $(3)$ and $(4)$ into $(9)$:
 
-$$
+\begin{equation}
 dW_t = W_t\left[\pi_t(\mu \,dt + \sigma \,dZ_t)+ (1-\pi_t)r\,dt\right]\\
 dW_t = W_t\left[\pi_t\mu + (r-\pi_tr)\,dt + \pi\sigma \,dZ_t)\right]
-$$
-$$
+\end{equation}
+\begin{equation}
 dW_t = W_t\left[(\pi_t(\mu -r)+r)\,dt + 
 \pi\sigma \,dZ_t)\right]
 \tag{10}
-$$
+\end{equation}
 
 Finally we add the term for consumption into the wealth dynamics to get the final dynamics for the evolution of $W_t$:
 
-$$
+\begin{equation}
 dW_t = (W_t(\pi_t(\mu -r)+r)-c_t)\,dt + 
 \pi\sigma W_t \,dZ_t
 \tag{11}
-$$
+\end{equation}
 
 <p style="page-break-before: always">
 ## Analytical solution to Merton's portfolio problem
 
 The HJB equation:
 
-$$0 = Max_{C(t),w(t)} \left[ \int_t^T e^{-\rho s}U[C(s)]ds 
+\begin{equation}
+    0 = Max_{C(t),w(t)} \left[ \int_t^T e^{-\rho s}U[C(s)]ds 
 + \frac{\partial I_t}{\partial t} 
 + \frac{\partial I_t}{\partial W}[(w(t)(\mu-r)+r)W(t) - C(t)] \\
-+ 1/2 \frac{\partial^2 I_t}{\partial W^2}\sigma^2\pi^2(t)W^(t)]\right]$$
++ 1/2 \frac{\partial^2 I_t}{\partial W^2}\sigma^2\pi^2(t)W^(t)]\right]
+\end{equation}
 
 Here $I_t$ is short for $I[W(t),t]$
 
@@ -226,19 +227,21 @@ Here $I_t$ is short for $I[W(t),t]$
 
 Which Merton solves obtaining the following:
 
-$$
+\begin{equation}
 \pi^*(t) = \frac{\mu - r}{\sigma^2\gamma}
-$$
+\end{equation}
 
-$$
+\begin{equation}
 v = \frac{\rho - (1-\gamma)(\frac{(\mu-r)^2}{2\sigma^2\gamma}+r)}{\gamma}
-$$
+\end{equation}
 
-$$C^*=
+\begin{equation}
+C^*=
 \begin{cases}
 [\frac{v}{1+(v\epsilon-1)exp(v(t-T))}]W(t)], & v \neq 0 \\
 [\frac{1}{(T-t+\epsilon)}]W(t), & v = 0
-\end{cases}$$
+\end{cases}
+\end{equation}
 [4][6]
 This solution can be used to compare the agent to the continuous time model derived by Merton
 
@@ -258,40 +261,40 @@ Action:
 The agent will operate every 2 trading days or every 10 timesteps. This is equivalent to consuming every 2 weeks similair to a biweekly provision. The agents actions will be scaled to reflect 10 timesteps. The proportion of the assets allocated to the risky assets will remain the same until the next action taken. Again, this is similair to a real world investor re-evaluating their asset allocation periodically vs continuously. Since the agent will operate in a discrete time setting, and since the statespace is a function of the percentage of time elapsed this helps keep generality across the state action pairs. 
 For a consumption only model with no added investments we limit $c_t$ to the set  $c_t \in \{0.01, 0.10, 0.50, 1.00\}$. For faster convergence, and to avoid a curse of dimensionality problem we limit the values the agent can consume at every timestep. 
 
-$$
+\begin{equation}
 a \in \mathcal{A},
-$$
-$$
+\end{equation}
+\begin{equation}
 a(\pi, c_t), \pi \in \{0.01, 0.02, 0.03,\ldots, 1\}\\
 and\\
 c_t \in \{0.01, 0.10, 0.50, 1.00\}
-$$
+\end{equation}
 
 Reward:
 
 The goal is to maximize the utility of consumption. Therefore the reward will be the utility for the consumption done at time $t$. The total return is the accumulated discounted reward up to time t. 
 
-$$
+\begin{equation}
 r(a_t, s_t)=
 \begin{cases} 
       \frac{W_tc_t^{1-\gamma}}{1-\gamma} & \gamma\neq 1 \\
       ln(c_tW_t) &  \gamma = 1
 \end{cases}
-$$
+\end{equation}
 
 The value function for this MDP is the following:
 
-$$
+\begin{equation}
 V_\pi(s) = E_\pi [G_t| S_t = s]
-$$
+\end{equation}
 
 That is the value at state s according to the policy pi is the expected total return given the state from the state space. 
 
 Using the accumulated reward over time in discrete time steps we get the following:
 
-$$
+\begin{equation}
 V_\pi(s) = E_\pi [\sum_{i=0}^T (1+\rho)^{T-t}\frac{(W_tc_t)^{(1-\gamma)}}{1-\gamma}| S_t = s]
-$$
+\end{equation}
 
 Using a Monte Carlo approach we can approximate the true value function by sampling each state action pair's return over a large number of visits. From the Law of Large Numbers we know this will eventually converge to the true value as the visits approach infinity. We will be using a running mean with the learning rate $\alpha = 0.01$ so that we can forget older episodes in the mean.  
 
@@ -389,8 +392,3 @@ As a simple but effective model however, the tabular MC method to approximate th
 
 <p style="page-break-after: always;">&nbsp;</p>
 <p style="page-break-before: always;">&nbsp;</p>
-
-
-```python
-
-```
